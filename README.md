@@ -14,7 +14,7 @@ Déploiement automatique d'infrastructure d'Honeypots avec un serveur ELK permet
 - **FileBeat** : agent développé par Elastic NV qui s’installe directement sur les endpoints (serveurs, PC, etc). L’agent collecte les logs et les informations demandés et les transfère à LogStash ou, dans notre cas, à ElasticSearch.
 - **T-Pot** : plateforme de honeypot mettant à disposition plusieurs services à simuler. Les services sont sous forme de conteneurs.
 
-## :factory: Déployer un T-Pot grâce à Vagrant :
+## :factory: Installation 
 
 ### Étape 1 : Installer VirtualBox
 Télécharger l’Hyperviseur (ou Provider) [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Il suffit de cliquer sur l’OS qui hébergera VirtualBox (dans notre cas Windows).
@@ -25,11 +25,11 @@ Une fois téléchargé, lancez l’exécutable et suivez l’installation.
 Télécharger l’exécutable permettant l’installation de [Vagrant](https://www.vagrantup.com/downloads). Suivez les étapes de l’installation normalement.
 
 ### Étape 3 : Récupérer notre répo GitHub
-Télécharger notre repo [GitHub](https://github.com/totoaleau/squiDeploy) pour obtenir les dossiers et fichiers nécessaires à la réalisation de l’environnement.
+Cloner notre repo [GitHub](https://github.com/totoaleau/squiDeploy) pour obtenir les dossiers et fichiers nécessaires à la réalisation de l’environnement : <code> git clone https://github.com/totoaleau/squiDeploy </code>
 
 ### Étape 4 : Configurer le serveur ELK
 *Pour commencer, nous allons configurer le serveur ELK qui permet de centraliser la collection de logs, leur traitement et l’affichage du résultat sur des dashboards dans Kibana.*
-- Il faut se rendre dans le dossier <code>/ELK</code> puis ouvrir le fichier <code>« Vagrantfile »</code>. Commençons par indiquer l’IP que prendra cette machine en modifiant la **ligne 42**.   
+- Il faut se rendre dans le dossier <code>/ELK</code> du répo précédemment téléchargé puis ouvrir le fichier <code>« Vagrantfile »</code>. Commençons par indiquer l’IP que prendra cette machine en modifiant la **ligne 42**.   
  ![Explications](/images/7.png)
  
 - Ensuite on indique le nombre de vCPU et la quantité de RAM à allouer au futur serveur ELK. La modification s’effectue aux **lignes 61 et 62**.   
@@ -60,7 +60,7 @@ Avec Vagrant installé, il suffit de se placer dans le dossier <code>/ELK</code>
 
 ### Étape 6 : Configuration du honeypot
 Nous avons donc un serveur ELK virtualisé capable de récupérer et traiter des données (avec ElasticSearch) et d’afficher les informations résultantes du traitement (avec Kibana).   
-Il est donc tant de configurer une VM T-Pot qui émettra des données pour collection et traitement.   
+Il est donc temps de configurer une VM T-Pot qui émettra des données pour collection et traitement.   
 - Pour cela, on entre dans le dossier <code>/T-Pot</code> et modifions le fichier <code>Vagrantfile</code> à la **ligne 42** en allouant une adresse IP au futur honeypot.   
 - Avec la même logique que pour le serveur ELK, on indique la RAM et le nombre de vCPU à attribuer à la machine aux **lignes 477 et 478** (un minimum de 8192 Mo de RAM et 4 CPUs est recommandé).   
  ![Explications](/images/15.png)   
@@ -78,9 +78,12 @@ Happy monitoring !
 
 ## :rocket: Pour aller plus loin :
 Dans cette démonstration, nous n’avons déployé qu’un seul T-Pot.   
-Si on désire en déployer plus, il suffit de copier le dossier T-Pot et de faire des changements au niveau de l’IP de la machine (il faudra aussi ajouter ces machines au serveur ELK pour que l’envoi et la récupération des logs se fassent correctement).   
+- Si on désire en déployer plus, il suffit de copier le dossier T-Pot et de faire des changements au niveau de l’IP de la machine.       
 Pour un déploiement industrialisé et automatique, préparez les dossiers à l’avance puis exécutez un script qui effectue des « vagrant up » dans chaque dossier de VM.   
-Si vous souhaitez déployer un réseau de honeypots dans un datacenter ou un cloud, il est possible d’utiliser TerraForm et OpenStack.   
+- A la base, le projet devait être développé en utilisant Terraform pour la partie IaaC, et OpenStack pour la virtualisation. Cependant, OpenStack est très difficile à utiliser correctement dans sa version DevStack. Il a donc fallu trouver une alternative moins consommatrice.   
+Terraform et OpenStack serait très pratique pour déployer cette infrastructure dans le Cloud, ce qui serait une très bonne suite au projet.   
+- Dans l'état du projet, les logs des honeypots sont récupérés telquels par le serveur ELK, Kibana n'effectue aucun traitement et aucun tableau de bord n'est fourni par défaut. Améliorer cette présentation de la donnée en proposant des tableaux de bords déjà fonctionnel serait intéressant pour simplifier la surveillance de l'activité des honeypots.
+- Pré-configurer des alertes pur prévenir de la détection d'activité par les honeypots serait aussi un plus.  
 
 
 ## :bust_in_silhouette: Team members 
