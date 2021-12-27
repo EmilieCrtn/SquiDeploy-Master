@@ -3,6 +3,8 @@
 ## :dart: Objectif 
 
 Déploiement automatique d'infrastructure d'Honeypots avec un serveur ELK permettant la collecte et traitement des logs dans un SIEM. 
+- ***SIEM (Security Information and Event Management)*** : *solution qui permet de surveiller, détecter et d’alerter concernant des événements ou incidents de sécurité dans un environnement IT. Il fournit une vue globale et centralisée en matière de posture de sécurité d’une infrastructure IT. Il donne aux professionnels de la cybersécurité un aperçu des activités au sein de leur environnement IT.*
+- ***Honeypot ("pot de miel")*** : *concept mis au point par des experts en sécurité informatique dont le but de piéger les pirates lors d'attaques et d'étudier leur comportement pour mieux s’en protéger, en plus de leur restreindre l’accès à tout le système en production.*
 
 
 ## :floppy_disk: Composants 
